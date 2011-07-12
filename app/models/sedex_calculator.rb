@@ -13,7 +13,14 @@ class SedexCalculator < Calculator
     ShippingMethod.register_calculator(self)
   end
 
-  def compute(order)
+  def compute(object)
+    if object.is_a?(Array)
+      order = object.first.order
+    elsif object.is_a?(Shipment)
+      order = object.order
+    else
+      order = object
+    end
 
     total_price , total_weight , shipping  = 0 , 0 , 0 
 
@@ -24,10 +31,6 @@ class SedexCalculator < Calculator
 
     return 0 if total_weight == 0
     
-    logger.debug "------ Calculando sedex----------"
-    logger.debug "Peso total: #{total_weight}"
-    logger.debug "Cep origem: #{preferred_zipcode}"
-    logger.debug "Cep destino: #{order.ship_address.zipcode.to_s}"
     frete = Correios::Frete.new :cep_origem => preferred_zipcode,
                                 :cep_destino => order.ship_address.zipcode.to_s,
                                 :peso => total_weight,
