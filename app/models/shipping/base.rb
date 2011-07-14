@@ -10,6 +10,34 @@ class Shipping::Base < Calculator
   end
 
   def compute(object)
+    pedido = encontra_pedido(object)
+
+    peso_total = peso_total_do_pedido(pedido)
+
+    return 0 if total_weight == 0
+    
+    frete = Correios::Frete.new :cep_origem => preferred_zipcode,
+                                :cep_destino => pedido.ship_address.zipcode.to_s,
+                                :peso => peso_total,
+                                :comprimento => 30,
+                                :largura => 15,
+                                :altura => 2
+
+    servico = frete.calcular self.tipo_servico
+    servico.valor
+  end
+
+  private
+
+  def peso_total_do_pedido(pedido)
+    peso_total = 0
+    pedido.line_items.each do |item|
+      peso_total += item.quantity * (item.variant.weight || self.preferred_default_weight)
+    end
+    peso_total
+  end
+
+  def encontra_pedido(object)
     if object.is_a?(Array)
       order = object.first.order
     elsif object.is_a?(Shipment)
@@ -17,25 +45,7 @@ class Shipping::Base < Calculator
     else
       order = object
     end
-
-    total_price , total_weight , shipping  = 0 , 0 , 0 
-
-    order.line_items.each do |item|
-      total_weight += item.quantity * (item.variant.weight  || self.preferred_default_weight)
-      total_price += item.price * item.quantity
-    end
-
-    return 0 if total_weight == 0
-    
-    frete = Correios::Frete.new :cep_origem => preferred_zipcode,
-                                :cep_destino => order.ship_address.zipcode.to_s,
-                                :peso => total_weight,
-                                :comprimento => 30,
-                                :largura => 15,
-                                :altura => 2
-
-    servico = frete.calcular self.tipo_servico
-    servico.valor
+    order
   end
 
 end
