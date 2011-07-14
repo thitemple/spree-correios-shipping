@@ -14,7 +14,7 @@ class Shipping::Base < Calculator
 
     peso_total = peso_total_do_pedido(pedido)
 
-    return 0 if total_weight == 0
+    return 0 if peso_total == 0
     
     frete = Correios::Frete.new :cep_origem => preferred_zipcode,
                                 :cep_destino => pedido.ship_address.zipcode.to_s,
