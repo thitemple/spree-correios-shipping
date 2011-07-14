@@ -1,8 +1,13 @@
 require 'correios-frete'
 
-class Correios::Base < Calculator
+class Shipping::Base < Calculator
   preference :zipcode, :string
   preference :default_weight, :float, :default => 1
+
+  def self.register
+    super
+    ShippingMethod.register_calculator(self)
+  end
 
   def compute(object)
     if object.is_a?(Array)
