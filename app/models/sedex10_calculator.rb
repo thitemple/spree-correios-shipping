@@ -1,6 +1,6 @@
-class Correios::SedexCalculator < Correios::Base
+class Correios::Sedex10Calculator < Correios::Base
   def self.description
-    'Sedex'
+    'Sedex 10'
   end
 
   def self.register
@@ -9,6 +9,6 @@ class Correios::SedexCalculator < Correios::Base
   end
 
   def servico
-    :sedex
+    :sedex_10
   end
 end

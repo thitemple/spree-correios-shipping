@@ -15,7 +15,7 @@ module SpreeCorreiosShipping
         Rails.env.production? ? require(c) : load(c)
       end
       
-      [SedexCalculator].each(&:register)
+      [SedexCalculator, Sedex10Calculator, SedexHojeCalculator, PacCalculator].each(&:register)
       
       Dir.glob(File.join(File.dirname(__FILE__), "../app/**/*_decorator*.rb")) do |c|
         Rails.env.production? ? require(c) : load(c)
