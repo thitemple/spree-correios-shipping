@@ -1,13 +1,12 @@
-SpreeCorreiosShipping
+Spree Correios Shipping
 =====================
 
-Introduction goes here.
+Uma extensão para Spree que faz cálculo de frete usando o servico dos correios através da gem correios-frete
 
 
-Example
+Instalacão
 =======
 
-Example goes here.
+No seu Gemfile apenas adicione:
 
-
-Copyright (c) 2011 [name of extension creator], released under the New BSD License
+gem "spree_correios_shipping", :git => "git://github.com/vintem/spree-correios-shipping.git"
