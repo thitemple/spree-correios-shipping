@@ -11,7 +11,6 @@ class Shipping::Base < Calculator
 
   def compute(object)
     pedido = encontra_pedido(object)
-    logger.debug "Ship address: #{pedido.ship_address}"
 
     peso_total = peso_total_do_pedido(pedido)
 
