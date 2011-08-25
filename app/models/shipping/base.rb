@@ -11,12 +11,13 @@ class Shipping::Base < Calculator
 
   def compute(object)
     pedido = encontra_pedido(object)
+    logger.debug "Ship address: #{pedido.ship_address}"
 
     peso_total = peso_total_do_pedido(pedido)
 
     return 0 if peso_total == 0
     
-    frete = Correios::Frete.new :cep_origem => preferred_zipcode,
+    frete = Correios::Frete::Calculador.new :cep_origem => preferred_zipcode,
                                 :cep_destino => pedido.ship_address.zipcode.to_s,
                                 :peso => peso_total,
                                 :comprimento => 30,

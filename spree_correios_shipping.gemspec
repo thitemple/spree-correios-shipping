@@ -17,5 +17,5 @@ Gem::Specification.new do |s|
   s.requirements << 'none'
 
   s.add_dependency('spree_core', '>= 0.60.0')
-  s.add_dependency('correios-frete', '>=0.2.0')
+  s.add_dependency('correios-frete', '1.0.2')
 end
